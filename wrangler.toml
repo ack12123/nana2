@@ -3,6 +3,6 @@ type = "javascript"
 
 [build]
 command = "flutter build web"
+
 [site]
 bucket = "./build/web"
-entry-point = "workers-site"
