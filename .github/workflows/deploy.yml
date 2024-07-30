@@ -25,7 +25,7 @@ jobs:
       run: flutter build web
 
     - name: Deploy to Cloudflare Pages
-      uses: cloudflare/wrangler-action@2
+      uses: cloudflare/wrangler-action@v3
       with:
         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         workingDirectory: ./build/web
