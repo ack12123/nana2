@@ -43,6 +43,7 @@ flutter:
     - assets/audio/王者全英雄/
     - assets/audio/贝塔系列音乐/
     - assets/audio/开心姐/
+    - assets/audio/三梦/
 
 flutter_launcher_icons:
   android: "launcher_icon"

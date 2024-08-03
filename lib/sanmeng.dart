@@ -30,7 +30,7 @@ class SanmengPageState extends State<SanmengPage> {
     final Map<String, dynamic> manifestMap = json.decode(manifestContent);
 
     final sanmengFiles = manifestMap.keys
-        .where((String key) => key.startsWith('assets/audio/开心姐/'))
+        .where((String key) => key.startsWith('assets/audio/三梦/'))
         .map((e) => e.replaceFirst('assets/audio/', ''))
         .toList();
 
@@ -57,10 +57,11 @@ class SanmengPageState extends State<SanmengPage> {
         spacing: 8.0, // 设置按钮之间的水平间距
         runSpacing: 8.0, // 设置按钮之间的垂直间距
         children: audioFiles.map((audioFile) {
-          String fileName = audioFile.split('/').last.split('.').first; // 获取文件名，不带路径和扩展名
+          String fileName =
+              audioFile.split('/').last.split('.').first; // 获取文件名，不带路径和扩展名
           return _buildButton(
             fileName,
-                () {
+            () {
               _audioManager.playAudio(audioFile);
             },
           );
@@ -69,7 +70,8 @@ class SanmengPageState extends State<SanmengPage> {
     );
   }
 
-  Widget _buildSection(BuildContext context, String title, List<String> audioFiles) {
+  Widget _buildSection(
+      BuildContext context, String title, List<String> audioFiles) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
@@ -84,10 +86,11 @@ class SanmengPageState extends State<SanmengPage> {
             spacing: 8.0, // 设置按钮之间的水平间距
             runSpacing: 8.0, // 设置按钮之间的垂直间距
             children: audioFiles.map((audioFile) {
-              String fileName = audioFile.split('/').last.split('.').first; // 获取文件名，不带路径和扩展名
+              String fileName =
+                  audioFile.split('/').last.split('.').first; // 获取文件名，不带路径和扩展名
               return _buildButton(
                 fileName,
-                    () {
+                () {
                   _audioManager.playAudio(audioFile);
                 },
               );
@@ -161,28 +164,28 @@ class SanmengPageState extends State<SanmengPage> {
           ),
           bottomNavigationBar: !isWideScreen
               ? NavigationBar(
-            selectedIndex: _selectedIndex,
-            onDestinationSelected: (int index) {
-              setState(() {
-                _selectedIndex = index;
-                _pageController.jumpToPage(index); // 更新页面
-              });
-            },
-            destinations: const <NavigationDestination>[
-              NavigationDestination(
-                icon: Icon(Icons.home),
-                label: '三梦1',
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.music_note),
-                label: '三梦2',
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.more_horiz),
-                label: '更多',
-              ),
-            ],
-          )
+                  selectedIndex: _selectedIndex,
+                  onDestinationSelected: (int index) {
+                    setState(() {
+                      _selectedIndex = index;
+                      _pageController.jumpToPage(index); // 更新页面
+                    });
+                  },
+                  destinations: const <NavigationDestination>[
+                    NavigationDestination(
+                      icon: Icon(Icons.home),
+                      label: '三梦1',
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.music_note),
+                      label: '三梦2',
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.more_horiz),
+                      label: '更多',
+                    ),
+                  ],
+                )
               : null,
           drawer: const CustomDrawer(), // 使用自定义抽屉
           floatingActionButton: FloatingActionButton(
