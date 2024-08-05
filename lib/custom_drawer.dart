@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'theme_config.dart'; // 导入深色模式主题配置
+import 'package:provider/provider.dart';
+import 'theme_notifier.dart'; // 导入深色模式主题配置
 import 'main.dart';
 import 'kaixin.dart';
 import 'sanmeng.dart';
+import 'set.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,21 +16,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      locale: const Locale('zh', 'CN'), // 设置默认语言环境为 zh-Hans-CN
-      supportedLocales: const [
-        Locale('en', 'US'), // 添加其他支持的语言环境
-        Locale('zh', 'CN'), // 添加中文简体
-      ],
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      title: '语音包软件',
-      theme: lightTheme, // 使用亮色主题
-      darkTheme: darkTheme, // 使用深色主题
-      themeMode: ThemeMode.system, // 默认跟随系统设置主题
-      home: const MyHomePage(),
+    return Consumer<ThemeNotifier>(
+      builder: (context, themeNotifier, child) {
+        return MaterialApp(
+          locale: const Locale('zh', 'CN'), // 设置默认语言环境为 zh-Hans-CN
+          supportedLocales: const [
+            Locale('en', 'US'), // 添加其他支持的语言环境
+            Locale('zh', 'CN'), // 添加中文简体
+          ],
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          title: '语音包软件',
+          theme: themeNotifier.lightTheme, // 使用主题通知器提供的浅色主题
+          darkTheme: themeNotifier.darkTheme, // 使用主题通知器提供的深色主题
+          themeMode: themeNotifier.themeMode, // 使用主题通知器提供的主题模式
+          home: const MyHomePage(),
+        );
+      },
     );
   }
 }
@@ -44,7 +50,7 @@ class CustomDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).secondaryHeaderColor,
             ),
             child: Text(
               '选择你的英雄',
@@ -86,7 +92,10 @@ class CustomDrawer extends StatelessWidget {
             leading: const Icon(Icons.settings),
             title: const Text('设置'),
             onTap: () {
-              // Handle settings tap
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SetPage()),
+              );
             },
           ),
         ],

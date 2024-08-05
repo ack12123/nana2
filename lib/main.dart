@@ -1,13 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'dart:convert';
+import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart'; // 引入 provider 包
+import 'theme_notifier.dart'; // 主题通知器
 import 'audio_manager.dart';
 import 'custom_drawer.dart';
-import 'theme_config.dart'; // 导入深色模式主题配置
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeNotifier(), // 创建主题通知器
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,21 +21,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      locale: const Locale('zh', 'CN'), // 设置默认语言环境为 zh-Hans-CN
-      supportedLocales: const [
-        Locale('en', 'US'), // 添加其他支持的语言环境
-        Locale('zh', 'CN'), // 添加中文简体
-      ],
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      title: '语音包软件',
-      theme: lightTheme, // 使用亮色主题
-      darkTheme: darkTheme, // 使用深色主题
-      themeMode: ThemeMode.system, // 默认跟随系统设置主题
-      home: const MyHomePage(),
+    return Consumer<ThemeNotifier>(
+      builder: (context, themeNotifier, child) {
+        return MaterialApp(
+          locale: const Locale('zh', 'CN'), // 设置默认语言环境为 zh-Hans-CN
+          supportedLocales: const [
+            Locale('en', 'US'), // 添加其他支持的语言环境
+            Locale('zh', 'CN'), // 添加中文简体
+          ],
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          title: '语音包软件',
+          theme: themeNotifier.lightTheme, // 使用主题通知器提供的浅色主题
+          darkTheme: themeNotifier.darkTheme, // 使用主题通知器提供的深色主题
+          themeMode: themeNotifier.themeMode, // 使用主题通知器提供的主题模式
+          home: const MyHomePage(),
+        );
+      },
     );
   }
 }
