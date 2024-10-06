@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // 生成浅色主题的函数
 ThemeData getLightTheme(Color seedColor) {
@@ -59,7 +60,9 @@ class ThemeNotifier with ChangeNotifier {
 
   ThemeNotifier({ThemeMode themeMode = ThemeMode.system, Color seedColor = Colors.blue})
       : _themeMode = themeMode,
-        _seedColor = seedColor;
+        _seedColor = seedColor {
+    _loadFromPrefs(); // 在初始化时加载持久化数据
+  }
 
   ThemeMode get themeMode => _themeMode;
   Color get seedColor => _seedColor;
@@ -67,13 +70,32 @@ class ThemeNotifier with ChangeNotifier {
   ThemeData get lightTheme => getLightTheme(_seedColor);
   ThemeData get darkTheme => getDarkTheme(_seedColor);
 
+  // 设置主题模式并持久化
   void setThemeMode(ThemeMode mode) {
     _themeMode = mode;
+    _saveToPrefs(); // 保存到本地存储
     notifyListeners();
   }
 
+  // 设置种子颜色并持久化
   void setSeedColor(Color color) {
     _seedColor = color;
+    _saveToPrefs(); // 保存到本地存储
+    notifyListeners();
+  }
+
+  // 将设置保存到 SharedPreferences
+  Future<void> _saveToPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt('themeMode', _themeMode.index);
+    prefs.setInt('seedColor', _seedColor.value);
+  }
+
+  // 从 SharedPreferences 加载设置
+  Future<void> _loadFromPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    _themeMode = ThemeMode.values[prefs.getInt('themeMode') ?? ThemeMode.system.index];
+    _seedColor = Color(prefs.getInt('seedColor') ?? Colors.blue.value);
     notifyListeners();
   }
 }
