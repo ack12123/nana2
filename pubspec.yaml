@@ -23,6 +23,9 @@ dependencies:
   cupertino_icons: ^1.0.6
   dynamic_color: ^1.3.0
   provider: ^6.1.2
+  url_launcher: ^6.3.0
+  path_provider: ^2.1.4
+  universal_io: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -37,12 +40,12 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/audio/失去了力气和手段/
-    - assets/audio/恢复了力气和手段/
-    - assets/audio/AI处理娜娜/
-    - assets/audio/来自娜娜的吟唱/
-    - assets/audio/王者全英雄/
-    - assets/audio/贝塔系列音乐/
+    - assets/audio/娜娜/失去了力气和手段/
+    - assets/audio/娜娜/恢复了力气和手段/
+    - assets/audio/娜娜/AI处理娜娜/
+    - assets/audio/娜娜/来自娜娜的吟唱/
+    - assets/audio/娜娜/王者全英雄/
+    - assets/audio/娜娜/贝塔系列音乐/
     - assets/audio/开心姐/
     - assets/audio/三梦/
 

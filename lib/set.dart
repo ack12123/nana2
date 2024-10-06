@@ -13,7 +13,7 @@ class SetPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('设置'),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +40,7 @@ class SetPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            const Text('哈哈哈', style: TextStyle(fontSize: 12)),
+            const Text('部分娜娜音频来自倾鹿', style: TextStyle(fontSize: 16)),
           ],
         ),
       ),

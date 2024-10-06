@@ -1,39 +1,19 @@
 import 'package:flutter/material.dart';
 
-// 函数用于生成浅色主题
+// 生成浅色主题的函数
 ThemeData getLightTheme(Color seedColor) {
-  return ThemeData(
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: seedColor,
-      brightness: Brightness.light,
-      secondary: seedColor.withOpacity(0.5), // 设置副颜色较浅
-    ),
+  final ColorScheme colorScheme = ColorScheme.fromSeed(
+    seedColor: seedColor,
     brightness: Brightness.light,
-    primaryColor: seedColor,
-    secondaryHeaderColor: seedColor.withOpacity(0.5), // 直接设置副颜色
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(13),
-        ),
-        textStyle: const TextStyle(fontSize: 14),
-      ),
-    ),
   );
-}
 
-// 函数用于生成深色主题
-ThemeData getDarkTheme(Color seedColor) {
   return ThemeData(
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: seedColor,
-      brightness: Brightness.dark,
-      secondary: seedColor.withOpacity(0.5), // 设置副颜色较浅
-    ),
-    brightness: Brightness.dark,
+    colorScheme: colorScheme,
     primaryColor: seedColor,
-    secondaryHeaderColor: seedColor.withOpacity(0.5), // 直接设置副颜色
+    secondaryHeaderColor: colorScheme.secondary,
+    textTheme: const TextTheme(
+      bodyLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -46,10 +26,40 @@ ThemeData getDarkTheme(Color seedColor) {
   );
 }
 
-// ThemeNotifier 用于管理主题模式和主题颜色
+// 生成深色主题的函数
+ThemeData getDarkTheme(Color seedColor) {
+  final ColorScheme colorScheme = ColorScheme.fromSeed(
+    seedColor: seedColor,
+    brightness: Brightness.dark,
+  );
+
+  return ThemeData(
+    colorScheme: colorScheme,
+    primaryColor: seedColor,
+    secondaryHeaderColor: colorScheme.secondary,
+    textTheme: const TextTheme(
+      bodyLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(13),
+        ),
+        textStyle: const TextStyle(fontSize: 14),
+      ),
+    ),
+  );
+}
+
+// ThemeNotifier 类，用于管理主题模式和种子颜色
 class ThemeNotifier with ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.system; // 默认跟随系统设置
-  Color _seedColor = Colors.blue; // 默认颜色
+  ThemeMode _themeMode;
+  Color _seedColor;
+
+  ThemeNotifier({ThemeMode themeMode = ThemeMode.system, Color seedColor = Colors.blue})
+      : _themeMode = themeMode,
+        _seedColor = seedColor;
 
   ThemeMode get themeMode => _themeMode;
   Color get seedColor => _seedColor;
@@ -59,11 +69,11 @@ class ThemeNotifier with ChangeNotifier {
 
   void setThemeMode(ThemeMode mode) {
     _themeMode = mode;
-    notifyListeners(); // 通知所有监听者
+    notifyListeners();
   }
 
   void setSeedColor(Color color) {
     _seedColor = color;
-    notifyListeners(); // 通知所有监听者
+    notifyListeners();
   }
 }
